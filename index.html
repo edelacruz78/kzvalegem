@@ -319,38 +319,39 @@
         // Spotify and Background Audio Logic
         const backgroundAudio = document.getElementById('background-audio');
         const spotifyPlayerContainer = document.getElementById('spotify-player');
+        const spotifyIframe = spotifyPlayerContainer.querySelector('iframe');
         const spotifyToggle = document.getElementById('spotify-toggle');
         let hasInteracted = false;
 
-        // Function to start background audio on first user interaction
-        function startMusic() {
+        function playBackgroundMusic() {
             if (!hasInteracted) {
-                backgroundAudio.play().catch(error => {
-                    console.log("Autoplay was prevented. User needs to interact more.");
-                });
+                backgroundAudio.play().catch(e => console.log("Autoplay blocked, waiting for interaction."));
                 hasInteracted = true;
-                // Remove this listener after first use
-                document.body.removeEventListener('click', startMusic);
-                document.body.removeEventListener('touchstart', startMusic);
+                document.body.removeEventListener('click', playBackgroundMusic);
+                document.body.removeEventListener('touchstart', playBackgroundMusic);
             }
         }
+        
+        window.addEventListener('load', () => {
+            backgroundAudio.play().then(() => {
+                hasInteracted = true;
+            }).catch(e => {
+                document.body.addEventListener('click', playBackgroundMusic);
+                document.body.addEventListener('touchstart', playBackgroundMusic);
+            });
+        });
 
-        document.body.addEventListener('click', startMusic);
-        document.body.addEventListener('touchstart', startMusic);
-
-        // Spotify Player Toggle Logic
         spotifyToggle.addEventListener('click', () => {
-            const isNowVisible = spotifyPlayerContainer.classList.toggle('show');
+            spotifyPlayerContainer.classList.toggle('show');
             spotifyToggle.classList.toggle('bg-red-500'); 
             spotifyToggle.classList.toggle('bg-green-500');
-
-            if (isNowVisible) {
-                // When the player is opened, pause the background audio
-                if (!backgroundAudio.paused) {
-                    backgroundAudio.pause();
-                }
-            }
         });
+
+        setInterval(() => {
+            if (document.activeElement === spotifyIframe && !backgroundAudio.paused) {
+                backgroundAudio.pause();
+            }
+        }, 300);
         
         // Scroll Animation Logic
         const sections = document.querySelectorAll('.fade-in-section');
