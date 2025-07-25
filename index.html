@@ -163,8 +163,7 @@
                 <div class="bg-gray-900 p-8 rounded-xl shadow-lg transform hover:scale-105 transition-transform">
                     <svg class="w-16 h-16 mx-auto mb-4 carnival-blue" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z" /></svg>
                     <h3 class="font-bold text-2xl mb-2">Vestuario</h3>
-                    <p>Elegante Casual</p>
-                    <p>(¡No olvides tus tenis! 👟)</p>
+                    <p>Mujeres: azul reservado, ya saben...ojo</p>
                 </div>
             </div>
         </div>
@@ -183,41 +182,23 @@
 
     <!-- Photo Gallery Section -->
     <section class="py-20 px-6 bg-gray-800 fade-in-section">
-        <div class="max-w-5xl mx-auto text-center">
+        <div class="max-w-xl mx-auto text-center">
             <h2 class="font-barriecito text-5xl md:text-7xl mb-4 carnival-pink">Nuestros Recuerdos</h2>
-            <p class="text-xl md:text-2xl mb-12">Después de la fiesta, ¡ayúdame a crear el álbum perfecto! Escanea los códigos o haz click en el enlace.</p>
-            <div class="grid md:grid-cols-3 gap-8">
-                <div class="bg-gray-900 p-6 rounded-xl text-center flex flex-col justify-between">
-                    <div>
-                        <h3 class="font-bold text-2xl mb-4 carnival-green">La Previa</h3>
-                        <div id="qr-previa" class="flex justify-center items-center bg-white p-2 rounded-lg"></div>
-                        <p class="mt-4 text-gray-400">Sube aquí los momentos antes de la fiesta.</p>
-                    </div>
-                    <a href="https://photos.app.goo.gl/Sy7teRBVAsKGzbYW8" target="_blank" class="text-blue-400 hover:text-blue-300 mt-4">o haz click aquí</a>
+            <p class="text-xl md:text-2xl mb-12">¡Ayúdame a crear el álbum perfecto! Escanea el código o haz click en el enlace para subir tus fotos.</p>
+            <div class="bg-gray-900 p-6 rounded-xl text-center flex flex-col justify-between">
+                <div>
+                    <h3 class="font-bold text-2xl mb-4 carnival-yellow">Comparte tus Fotos</h3>
+                    <div id="qr-fotos" class="flex justify-center items-center bg-white p-2 rounded-lg"></div>
+                    <p class="mt-4 text-gray-400">Sube aquí todos los momentos de la fiesta.</p>
                 </div>
-                <div class="bg-gray-900 p-6 rounded-xl text-center flex flex-col justify-between">
-                    <div>
-                        <h3 class="font-bold text-2xl mb-4 carnival-yellow">La Fiesta</h3>
-                        <div id="qr-fiesta" class="flex justify-center items-center bg-white p-2 rounded-lg"></div>
-                        <p class="mt-4 text-gray-400">¡Todas las fotos de la rumba y el baile!</p>
-                    </div>
-                     <a href="https://photos.app.goo.gl/t1xEQeZ1rm8nmcvv8" target="_blank" class="text-blue-400 hover:text-blue-300 mt-4">o haz click aquí</a>
-                </div>
-                <div class="bg-gray-900 p-6 rounded-xl text-center flex flex-col justify-between">
-                    <div>
-                        <h3 class="font-bold text-2xl mb-4 carnival-blue">Selfies & Grupo</h3>
-                        <div id="qr-selfies" class="flex justify-center items-center bg-white p-2 rounded-lg"></div>
-                        <p class="mt-4 text-gray-400">Comparte las mejores selfies conmigo y tus amigos.</p>
-                    </div>
-                     <a href="https://forms.gle/your-upload-link-3" target="_blank" class="text-blue-400 hover:text-blue-300 mt-4">o haz click aquí</a>
-                </div>
+                <a href="https://photos.app.goo.gl/Sy7teRBVAsKGzbYW8" target="_blank" class="text-blue-400 hover:text-blue-300 mt-4">o haz click aquí</a>
             </div>
         </div>
     </section>
 
     <!-- Spotify Player -->
     <div id="spotify-player" class="show">
-        <iframe data-testid="embed-iframe" style="border-radius:12px" src="https://open.spotify.com/embed/playlist/3XTZVwybK36i3jW9LgfGlM?utm_source=generator&autoplay=1" width="100%" height="352" frameBorder="0" allowfullscreen="" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy"></iframe>
+        <iframe data-testid="embed-iframe" style="border-radius:12px" src="https://open.spotify.com/embed/playlist/0fkJhFP8f7FwsGmu7wbWPl?utm_source=generator&autoplay=1" width="100%" height="352" frameBorder="0" allowfullscreen="" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy"></iframe>
     </div>
     <button id="spotify-toggle" class="bg-red-500 hover:bg-red-600 text-white w-16 h-16 rounded-full flex items-center justify-center shadow-lg transform hover:scale-110 transition-transform">
         <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" fill="currentColor" class="bi bi-spotify" viewBox="0 0 16 16">
@@ -237,8 +218,7 @@
     <script>
         // SVG data for a neon party balloon
         const neonBalloon = `data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 60 100"><ellipse cx="30" cy="40" rx="25" ry="35" fill="%23EC4899" /><path d="M30 75 L25 70 L35 70 Z" fill="%23EC4899"/><path d="M30 95 L30 70" stroke="%23FFFFFF" stroke-width="1.5"/></svg>`;
-        const neonBalloon2 = `data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 60 100"><ellipse cx="30" cy="40" rx="25" ry="35" fill="%2360A5FA" /><path d="M30 75 L25 70 L35 70 Z" fill="%2360A5FA"/><path d="M30 95 L30 70" stroke="%23FFFFFF" stroke-width="1.5"/></svg>`;
-
+        
         // Particle animation configuration
         particlesJS('particles-js', {
             "particles": {
@@ -307,9 +287,7 @@
             correctLevel: QRCode.CorrectLevel.H
         };
         
-        new QRCode(document.getElementById("qr-previa"), { ...qrOptions, text: "https://photos.app.goo.gl/Sy7teRBVAsKGzbYW8" });
-        new QRCode(document.getElementById("qr-fiesta"), { ...qrOptions, text: "https://photos.app.goo.gl/t1xEQeZ1rm8nmcvv8" });
-        new QRCode(document.getElementById("qr-selfies"), { ...qrOptions, text: "https://forms.gle/your-upload-link-3" }); // Placeholder
+        new QRCode(document.getElementById("qr-fotos"), { ...qrOptions, text: "https://photos.app.goo.gl/Sy7teRBVAsKGzbYW8" });
 
         // Spotify Player Toggle Logic
         const spotifyPlayer = document.getElementById('spotify-player');
