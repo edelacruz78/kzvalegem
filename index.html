@@ -1,0 +1,387 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mis KZ - Valeria's Quince</title>
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Barriecito&family=Pompiere&display=swap" rel="stylesheet">
+    
+    <!-- QR Code Generator Library -->
+    <script src="https://cdn.jsdelivr.net/npm/qrcodejs@1.0.0/qrcode.min.js"></script>
+
+    <style>
+        /* Custom styles to apply the fonts */
+        body {
+            font-family: 'Pompiere', sans-serif;
+            background-color: #111827; /* bg-gray-900 */
+        }
+        .font-barriecito {
+            font-family: 'Barriecito', cursive;
+        }
+        .font-pompiere {
+            font-family: 'Pompiere', sans-serif;
+        }
+        /* Carnival colors */
+        .carnival-pink { color: #EC4899; } /* pink-500 */
+        .carnival-yellow { color: #FBBF24; } /* amber-400 */
+        .carnival-green { color: #34D399; } /* emerald-400 */
+        .carnival-blue { color: #60A5FA; } /* blue-400 */
+
+        /* Animation for floating particles */
+        #particles-js {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            top: 0;
+            left: 0;
+            z-index: 0;
+        }
+
+        /* Styling for the countdown timer */
+        .countdown-box {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+        
+        /* Floating Spotify player styles */
+        #spotify-player {
+            position: fixed;
+            bottom: -350px;
+            right: 20px;
+            width: 300px;
+            height: 380px;
+            transition: bottom 0.5s ease-in-out;
+            z-index: 1000;
+        }
+        #spotify-player.show {
+            bottom: 20px;
+        }
+        #spotify-toggle {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            z-index: 1001;
+        }
+        #spotify-player.show + #spotify-toggle {
+            bottom: 370px; /* Adjust based on player height */
+        }
+
+        /* Fade-in animation on scroll */
+        .fade-in-section {
+            opacity: 0;
+            transform: translateY(20px);
+            transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+        }
+        .fade-in-section.is-visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* Accordion styles */
+        .accordion-content {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.5s ease-out, padding 0.5s ease-out;
+            padding: 0 1.5rem;
+        }
+        .accordion-item.active .accordion-content {
+            padding: 1.5rem 1.5rem;
+        }
+        .accordion-item.active .accordion-arrow {
+            transform: rotate(180deg);
+        }
+        .accordion-arrow {
+            transition: transform 0.3s ease-out;
+        }
+        /* Neon glow for active accordion item */
+        .accordion-item.active {
+            box-shadow: 0 0 8px #EC4899, 0 0 12px #60A5FA, 0 0 16px #FBBF24;
+            transition: box-shadow 0.3s ease-in-out;
+        }
+    </style>
+</head>
+<body class="bg-gray-900 text-white font-pompiere overflow-x-hidden">
+
+    <!-- Hero Section -->
+    <section class="relative min-h-screen flex flex-col items-center justify-center text-center p-6 overflow-hidden">
+        <!-- Particle background -->
+        <div id="particles-js"></div>
+        
+        <div class="relative z-10">
+            <h2 class="text-4xl md:text-6xl font-pompiere tracking-wider leading-tight">Te estoy invitando a</h2>
+            <h1 class="font-barriecito text-6xl md:text-8xl my-2">
+                <span class="carnival-pink">M</span><span class="carnival-yellow">i</span> <span class="carnival-green">K</span><span class="carnival-blue">Z</span>
+            </h1>
+            <p class="font-barriecito text-7xl md:text-9xl carnival-yellow leading-none">Valeria's</p>
+            <p class="font-barriecito text-5xl md:text-7xl carnival-pink">Quince</p>
+
+            <!-- Countdown Timer -->
+            <div id="countdown" class="flex justify-center gap-2 md:gap-5 mt-12 text-white">
+                <div class="countdown-box p-3 md:p-5 rounded-lg w-20 md:w-28">
+                    <div id="days" class="text-3xl md:text-5xl font-bold">00</div>
+                    <div class="text-sm md:text-lg font-pompiere">Días</div>
+                </div>
+                <div class="countdown-box p-3 md:p-5 rounded-lg w-20 md:w-28">
+                    <div id="hours" class="text-3xl md:text-5xl font-bold">00</div>
+                    <div class="text-sm md:text-lg font-pompiere">Horas</div>
+                </div>
+                <div class="countdown-box p-3 md:p-5 rounded-lg w-20 md:w-28">
+                    <div id="minutes" class="text-3xl md:text-5xl font-bold">00</div>
+                    <div class="text-sm md:text-lg font-pompiere">Minutos</div>
+                </div>
+                <div class="countdown-box p-3 md:p-5 rounded-lg w-20 md:w-28">
+                    <div id="seconds" class="text-3xl md:text-5xl font-bold">00</div>
+                    <div class="text-sm md:text-lg font-pompiere">Segundos</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Event Details Section -->
+    <section class="py-20 px-6 bg-gray-800 fade-in-section">
+        <div class="max-w-3xl mx-auto text-center">
+            <h2 class="font-barriecito text-5xl md:text-7xl mb-12 carnival-green">La Celebración</h2>
+            <div class="space-y-4">
+                <!-- Accordion Item 1: Fecha y Hora -->
+                <div class="accordion-item bg-gray-900 rounded-xl shadow-lg">
+                    <button class="accordion-header w-full flex justify-between items-center p-6 text-left">
+                        <div class="flex items-center">
+                            <svg class="w-12 h-12 mr-5 carnival-pink" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" /></svg>
+                            <span class="font-bold text-2xl">Fecha y Hora</span>
+                        </div>
+                        <svg class="accordion-arrow w-6 h-6 transform" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" /></svg>
+                    </button>
+                    <div class="accordion-content text-xl">
+                        <p>Sábado, 23 de Agosto de 2025</p>
+                        <p>7:30 PM</p>
+                    </div>
+                </div>
+                <!-- Accordion Item 2: Lugar -->
+                <div class="accordion-item bg-gray-900 rounded-xl shadow-lg">
+                    <button class="accordion-header w-full flex justify-between items-center p-6 text-left">
+                        <div class="flex items-center">
+                            <svg class="w-12 h-12 mr-5 carnival-yellow" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" /><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" /></svg>
+                            <span class="font-bold text-2xl">Lugar</span>
+                        </div>
+                        <svg class="accordion-arrow w-6 h-6 transform" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" /></svg>
+                    </button>
+                    <div class="accordion-content text-xl">
+                        <p>Bar Místico</p>
+                        <p>Club Sincelejo</p>
+                    </div>
+                </div>
+                <!-- Accordion Item 3: Vestuario -->
+                <div class="accordion-item bg-gray-900 rounded-xl shadow-lg">
+                    <button class="accordion-header w-full flex justify-between items-center p-6 text-left">
+                        <div class="flex items-center">
+                             <svg class="w-12 h-12 mr-5 carnival-blue" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z" /></svg>
+                            <span class="font-bold text-2xl">Vestuario</span>
+                        </div>
+                        <svg class="accordion-arrow w-6 h-6 transform" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" /></svg>
+                    </button>
+                    <div class="accordion-content text-xl">
+                        <p>Elegante Casual</p>
+                        <p>(¡No olvides tus tenis! 👟)</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- RSVP Section -->
+    <section class="py-20 px-6 text-center fade-in-section">
+        <div class="max-w-2xl mx-auto">
+            <h2 class="font-barriecito text-5xl md:text-7xl mb-6 carnival-yellow">¿Nos vemos?</h2>
+            <p class="text-xl md:text-2xl mb-8">Tu presencia es el mejor regalo. Por favor, confirma tu asistencia para celebrar juntos esta noche mágica.</p>
+            <button id="rsvp-button" class="bg-green-500 text-white font-bold text-xl py-4 px-10 rounded-full hover:bg-green-600 transition-colors shadow-lg transform hover:scale-110">
+                ✓ Confirmar por WhatsApp
+            </button>
+        </div>
+    </section>
+
+    <!-- Photo Gallery Section -->
+    <section class="py-20 px-6 bg-gray-800 fade-in-section">
+        <div class="max-w-5xl mx-auto text-center">
+            <h2 class="font-barriecito text-5xl md:text-7xl mb-4 carnival-pink">Nuestros Recuerdos</h2>
+            <p class="text-xl md:text-2xl mb-12">Después de la fiesta, ¡ayúdame a crear el álbum perfecto! Escanea los códigos o haz click en el enlace.</p>
+            <div class="grid md:grid-cols-3 gap-8">
+                <div class="bg-gray-900 p-6 rounded-xl text-center flex flex-col justify-between">
+                    <div>
+                        <h3 class="font-bold text-2xl mb-4 carnival-green">La Previa</h3>
+                        <div id="qr-previa" class="flex justify-center items-center bg-white p-2 rounded-lg"></div>
+                        <p class="mt-4 text-gray-400">Sube aquí los momentos antes de la fiesta.</p>
+                    </div>
+                    <a href="https://photos.app.goo.gl/Sy7teRBVAsKGzbYW8" target="_blank" class="text-blue-400 hover:text-blue-300 mt-4">o haz click aquí</a>
+                </div>
+                <div class="bg-gray-900 p-6 rounded-xl text-center flex flex-col justify-between">
+                    <div>
+                        <h3 class="font-bold text-2xl mb-4 carnival-yellow">La Fiesta</h3>
+                        <div id="qr-fiesta" class="flex justify-center items-center bg-white p-2 rounded-lg"></div>
+                        <p class="mt-4 text-gray-400">¡Todas las fotos de la rumba y el baile!</p>
+                    </div>
+                     <a href="https://photos.app.goo.gl/t1xEQeZ1rm8nmcvv8" target="_blank" class="text-blue-400 hover:text-blue-300 mt-4">o haz click aquí</a>
+                </div>
+                <div class="bg-gray-900 p-6 rounded-xl text-center flex flex-col justify-between">
+                    <div>
+                        <h3 class="font-bold text-2xl mb-4 carnival-blue">Selfies & Grupo</h3>
+                        <div id="qr-selfies" class="flex justify-center items-center bg-white p-2 rounded-lg"></div>
+                        <p class="mt-4 text-gray-400">Comparte las mejores selfies conmigo y tus amigos.</p>
+                    </div>
+                     <a href="https://forms.gle/your-upload-link-3" target="_blank" class="text-blue-400 hover:text-blue-300 mt-4">o haz click aquí</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Spotify Player -->
+    <div id="spotify-player" class="show">
+        <iframe data-testid="embed-iframe" style="border-radius:12px" src="https://open.spotify.com/embed/playlist/3XTZVwybK36i3jW9LgfGlM?utm_source=generator&autoplay=1" width="100%" height="352" frameBorder="0" allowfullscreen="" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy"></iframe>
+    </div>
+    <button id="spotify-toggle" class="bg-red-500 hover:bg-red-600 text-white w-16 h-16 rounded-full flex items-center justify-center shadow-lg transform hover:scale-110 transition-transform">
+        <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" fill="currentColor" class="bi bi-spotify" viewBox="0 0 16 16">
+            <path d="M8 0a8 8 0 1 0 0 16A8 8 0 0 0 8 0m3.669 11.538a.5.5 0 0 1-.63.062c-2.433-1.49-5.51-1.82-9.088-.99a.5.5 0 0 1-.592-.414c-.08-.732.283-1.444.935-1.652 3.84-.898 7.29.193 9.975 1.85.5.5 0 0 1 .062.63zM12.03 9.048a.5.5 0 0 1-.63.062c-2.16-1.32-4.96-1.604-8.334-.87a.5.5 0 0 1-.592-.414c-.08-.732.283-1.444.935-1.652 3.588-.84 6.77.22 9.148 1.668a.5.5 0 0 1 .062.63zm.66-2.52a.5.5 0 0 1-.63.062c-1.96-1.202-4.4-1.456-7.672-.8a.5.5 0 0 1-.592-.414c-.08-.732.283-1.444.935-1.652 3.488-.696 6.28.342 8.452 1.57a.5.5 0 0 1 .062.63z"/>
+        </svg>
+    </button>
+
+    <!-- Footer -->
+    <footer class="text-center py-8 text-gray-500">
+        <p>Con cariño, Valeria Isabel</p>
+        <p class="font-barriecito text-2xl mt-2 carnival-pink">¡Te espero!</p>
+    </footer>
+
+
+    <!-- Particles.js script -->
+    <script src="https://cdn.jsdelivr.net/particles.js/2.0.0/particles.min.js"></script>
+    <script>
+        // SVG data for carnival mask particles
+        const mask1 = `data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 60" fill="none" stroke-width="4"><path d="M10 30 C20 10 40 10 50 30 C60 50 80 50 90 30" stroke="%23EC4899"/><path d="M50 30 L50 10 L65 20 L50 25" stroke="%23FBBF24" stroke-width="3"/><circle cx="30" cy="30" r="4" fill="%2334D399"/><circle cx="70" cy="30" r="4" fill="%2360A5FA"/></svg>`;
+
+        // Particle animation configuration
+        particlesJS('particles-js', {
+            "particles": {
+                "number": { "value": 30, "density": { "enable": true, "value_area": 800 } },
+                "color": { "value": "#ffffff" }, // Not used for image particles
+                "shape": {
+                    "type": "image",
+                    "image": {
+                        "src": mask1, // Using a single, stable mask SVG to prevent errors
+                        "width": 100,
+                        "height": 60
+                    }
+                },
+                "opacity": { "value": 0.8, "random": true, "anim": { "enable": true, "speed": 1, "opacity_min": 0.2, "sync": false } },
+                "size": { "value": 30, "random": true, "anim": { "enable": true, "speed": 4, "size_min": 15, "sync": false } },
+                "line_linked": { "enable": false },
+                "move": { "enable": true, "speed": 3, "direction": "none", "random": true, "straight": false, "out_mode": "out", "bounce": false }
+            },
+            "interactivity": { "detect_on": "canvas", "events": { "onhover": { "enable": false }, "onclick": { "enable": false } } },
+            "retina_detect": true
+        });
+
+        // Countdown Timer Logic
+        const countdown = () => {
+            const countDate = new Date("August 23, 2025 19:30:00").getTime();
+            const now = new Date().getTime();
+            const gap = countDate - now;
+
+            if (gap < 0) {
+                document.getElementById('countdown').innerHTML = '<div class="text-3xl font-barriecito carnival-pink">¡La fiesta ya comenzó!</div>';
+                return;
+            }
+
+            const second = 1000;
+            const minute = second * 60;
+            const hour = minute * 60;
+            const day = hour * 24;
+
+            const textDay = Math.floor(gap / day);
+            const textHour = Math.floor((gap % day) / hour);
+            const textMinute = Math.floor((gap % hour) / minute);
+            const textSecond = Math.floor((gap % minute) / second);
+
+            document.getElementById('days').innerText = String(textDay).padStart(2, '0');
+            document.getElementById('hours').innerText = String(textHour).padStart(2, '0');
+            document.getElementById('minutes').innerText = String(textMinute).padStart(2, '0');
+            document.getElementById('seconds').innerText = String(textSecond).padStart(2, '0');
+        };
+        setInterval(countdown, 1000);
+        countdown(); // Initial call
+
+        // WhatsApp RSVP Button Logic
+        document.getElementById('rsvp-button').addEventListener('click', () => {
+            const phoneNumber = '573116356809'; // Número actualizado
+            const message = "¡Hola Valeria! Con mucho gusto confirmo mi asistencia a tu fiesta de 15 años el 23 de agosto. ¡Nos vemos en el Club Sincelejo para celebrar contigo!";
+            const whatsappUrl = `https://wa.me/${phoneNumber}?text=${encodeURIComponent(message)}`;
+            window.open(whatsappUrl, '_blank');
+        });
+
+        // QR Code Generation Logic
+        const qrOptions = {
+            width: 180,
+            height: 180,
+            colorDark: "#111827",
+            colorLight: "#ffffff",
+            correctLevel: QRCode.CorrectLevel.H
+        };
+        
+        new QRCode(document.getElementById("qr-previa"), { ...qrOptions, text: "https://photos.app.goo.gl/Sy7teRBVAsKGzbYW8" });
+        new QRCode(document.getElementById("qr-fiesta"), { ...qrOptions, text: "https://photos.app.goo.gl/t1xEQeZ1rm8nmcvv8" });
+        new QRCode(document.getElementById("qr-selfies"), { ...qrOptions, text: "https://forms.gle/your-upload-link-3" }); // Placeholder
+
+        // Spotify Player Toggle Logic
+        const spotifyPlayer = document.getElementById('spotify-player');
+        const spotifyToggle = document.getElementById('spotify-toggle');
+        spotifyToggle.addEventListener('click', () => {
+            spotifyPlayer.classList.toggle('show');
+            spotifyToggle.classList.toggle('bg-red-500'); 
+            spotifyToggle.classList.toggle('bg-green-500');
+        });
+        
+        // Accordion Logic
+        const accordionItems = document.querySelectorAll('.accordion-item');
+        accordionItems.forEach(item => {
+            const header = item.querySelector('.accordion-header');
+            header.addEventListener('click', () => {
+                const content = item.querySelector('.accordion-content');
+                const isActive = item.classList.contains('active');
+                
+                // Close all items
+                accordionItems.forEach(otherItem => {
+                    otherItem.classList.remove('active');
+                    otherItem.querySelector('.accordion-content').style.maxHeight = null;
+                });
+
+                // Open the clicked item if it wasn't already active
+                if (!isActive) {
+                    item.classList.add('active');
+                    content.style.maxHeight = content.scrollHeight + "px";
+                }
+            });
+        });
+
+        // Scroll Animation Logic
+        const sections = document.querySelectorAll('.fade-in-section');
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('is-visible');
+                }
+            });
+        }, {
+            threshold: 0.1
+        });
+        sections.forEach(section => {
+            observer.observe(section);
+        });
+
+    </script>
+</body>
+</html>
