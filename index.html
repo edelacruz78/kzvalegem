@@ -54,10 +54,10 @@
         /* Floating Spotify player styles */
         #spotify-player {
             position: fixed;
-            bottom: -350px;
+            bottom: -380px; /* Start hidden */
             right: 20px;
             width: 300px;
-            height: 380px;
+            height: 352px;
             transition: bottom 0.5s ease-in-out;
             z-index: 1000;
         }
@@ -71,7 +71,7 @@
             z-index: 1001;
         }
         #spotify-player.show + #spotify-toggle {
-            bottom: 370px; /* Adjust based on player height */
+            bottom: 380px; /* Adjust based on player height */
         }
 
         /* Fade-in animation on scroll */
@@ -225,10 +225,10 @@
     </section>
 
     <!-- Spotify Player -->
-    <div id="spotify-player" class="show">
+    <div id="spotify-player">
         <iframe data-testid="embed-iframe" style="border-radius:12px" src="https://open.spotify.com/embed/playlist/0fkJhFP8f7FwsGmu7wbWPl?utm_source=generator" width="100%" height="352" frameBorder="0" allowfullscreen="" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy"></iframe>
     </div>
-    <button id="spotify-toggle" class="bg-red-500 hover:bg-red-600 text-white w-16 h-16 rounded-full flex items-center justify-center shadow-lg transform hover:scale-110 transition-transform">
+    <button id="spotify-toggle" class="bg-green-500 hover:bg-green-600 text-white w-16 h-16 rounded-full flex items-center justify-center shadow-lg transform hover:scale-110 transition-transform">
         <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" fill="currentColor" class="bi bi-spotify" viewBox="0 0 16 16">
             <path d="M8 0a8 8 0 1 0 0 16A8 8 0 0 0 8 0m3.669 11.538a.5.5 0 0 1-.63.062c-2.433-1.49-5.51-1.82-9.088-.99a.5.5 0 0 1-.592-.414c-.08-.732.283-1.444.935-1.652 3.84-.898 7.29.193 9.975 1.85.5.5 0 0 1 .062.63zM12.03 9.048a.5.5 0 0 1-.63.062c-2.16-1.32-4.96-1.604-8.334-.87a.5.5 0 0 1-.592-.414c-.08-.732.283-1.444.935-1.652 3.588-.84 6.77.22 9.148 1.668a.5.5 0 0 1 .062.63zm.66-2.52a.5.5 0 0 1-.63.062c-1.96-1.202-4.4-1.456-7.672-.8a.5.5 0 0 1-.592-.414c-.08-.732.283-1.444.935-1.652 3.488-.696 6.28.342 8.452 1.57a.5.5 0 0 1 .062.63z"/>
         </svg>
@@ -319,6 +319,7 @@
         // Spotify and Background Audio Logic
         const backgroundAudio = document.getElementById('background-audio');
         const spotifyPlayerContainer = document.getElementById('spotify-player');
+        const spotifyToggle = document.getElementById('spotify-toggle');
         let hasInteracted = false;
 
         // Function to start background audio on first user interaction
@@ -329,27 +330,26 @@
                 });
                 hasInteracted = true;
                 // Remove this listener after first use
-                window.removeEventListener('click', startMusic);
-                window.removeEventListener('touchstart', startMusic);
+                document.body.removeEventListener('click', startMusic);
+                document.body.removeEventListener('touchstart', startMusic);
             }
         }
 
-        window.addEventListener('click', startMusic);
-        window.addEventListener('touchstart', startMusic);
-
-        // Pause background audio when user interacts with Spotify
-        spotifyPlayerContainer.addEventListener('mouseover', () => {
-            if (!backgroundAudio.paused) {
-                backgroundAudio.pause();
-            }
-        });
+        document.body.addEventListener('click', startMusic);
+        document.body.addEventListener('touchstart', startMusic);
 
         // Spotify Player Toggle Logic
-        const spotifyToggle = document.getElementById('spotify-toggle');
         spotifyToggle.addEventListener('click', () => {
-            spotifyPlayerContainer.classList.toggle('show');
+            const isNowVisible = spotifyPlayerContainer.classList.toggle('show');
             spotifyToggle.classList.toggle('bg-red-500'); 
             spotifyToggle.classList.toggle('bg-green-500');
+
+            if (isNowVisible) {
+                // When the player is opened, pause the background audio
+                if (!backgroundAudio.paused) {
+                    backgroundAudio.pause();
+                }
+            }
         });
         
         // Scroll Animation Logic
